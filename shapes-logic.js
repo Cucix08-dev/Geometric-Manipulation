@@ -85,7 +85,6 @@ spawnContainer.addEventListener("touchstart", (e) => {
 });
 
 
-
 document.addEventListener("mousemove", (e) => {
     if (!grabbed) return;
 
@@ -149,10 +148,10 @@ spawnContainer.addEventListener("touchmove", (e) => {
     e.preventDefault();
 }, { passive: false });
 
+
 document.addEventListener("mouseup", () => {
     grabbed = null;
 });
-
 spawnContainer.addEventListener("touchend", () => {
     clearTimeout(holdTimeout);
 
@@ -162,6 +161,7 @@ spawnContainer.addEventListener("touchend", () => {
 
     isHolding = false;
 });
+
 
 
 
