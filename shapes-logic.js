@@ -75,11 +75,15 @@ spawnContainer.addEventListener("touchstart", (e) => {
 
     if (!target || !target.classList.contains("shape")) return;
 
-    grabbed = target;
+    holdTimeout = setTimeout(() => {
+        isHolding = true;
+        grabbed = target;
 
-    lastMouseX = t.clientX;
-    lastMouseY = t.clientY;
+        lastMouseX = t.clientX;
+        lastMouseY = t.clientY;
+    }, 120);
 });
+
 
 
 document.addEventListener("mousemove", (e) => {
@@ -112,8 +116,8 @@ document.addEventListener("mousemove", (e) => {
     lastMouseY = e.clientY;
 });
 
-document.addEventListener("touchmove", (e) => {
-    if (!grabbed) return;
+spawnContainer.addEventListener("touchmove", (e) => {
+    if (!grabbed || !isHolding) return;
 
     const t = e.touches[0];
     const rect = spawnContainer.getBoundingClientRect();
@@ -136,24 +140,29 @@ document.addEventListener("touchmove", (e) => {
     grabbed.style.left = x + "px";
     grabbed.style.top = y + "px";
 
-    // velocità per inerzia
     grabbed.dataset.vx = t.clientX - lastMouseX;
     grabbed.dataset.vy = t.clientY - lastMouseY;
 
     lastMouseX = t.clientX;
     lastMouseY = t.clientY;
 
-    e.preventDefault(); // evita lo scroll
+    e.preventDefault();
 }, { passive: false });
-
 
 document.addEventListener("mouseup", () => {
     grabbed = null;
 });
 
 spawnContainer.addEventListener("touchend", () => {
-    grabbed = null;
+    clearTimeout(holdTimeout);
+
+    if (isHolding) {
+        grabbed = null;
+    }
+
+    isHolding = false;
 });
+
 
 
 // ===============================
