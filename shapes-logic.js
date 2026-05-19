@@ -69,6 +69,19 @@ spawnContainer.addEventListener("mousedown", (e) => {
     lastMouseY = e.clientY;
 });
 
+spawnContainer.addEventListener("touchstart", (e) => {
+    const t = e.touches[0];
+    const target = document.elementFromPoint(t.clientX, t.clientY);
+
+    if (!target || !target.classList.contains("shape")) return;
+
+    grabbed = target;
+
+    lastMouseX = t.clientX;
+    lastMouseY = t.clientY;
+});
+
+
 document.addEventListener("mousemove", (e) => {
     if (!grabbed) return;
 
@@ -99,9 +112,49 @@ document.addEventListener("mousemove", (e) => {
     lastMouseY = e.clientY;
 });
 
+document.addEventListener("touchmove", (e) => {
+    if (!grabbed) return;
+
+    const t = e.touches[0];
+    const rect = spawnContainer.getBoundingClientRect();
+
+    const mouseX = t.clientX - rect.left;
+    const mouseY = t.clientY - rect.top;
+
+    let x = mouseX - grabbed.offsetWidth / 2;
+    let y = mouseY - grabbed.offsetHeight / 2;
+
+    const maxX = rect.width - grabbed.offsetWidth;
+    const maxY = rect.height - grabbed.offsetHeight;
+
+    x = Math.max(0, Math.min(maxX, x));
+    y = Math.max(0, Math.min(maxY, y));
+
+    grabbed.dataset.x = x;
+    grabbed.dataset.y = y;
+
+    grabbed.style.left = x + "px";
+    grabbed.style.top = y + "px";
+
+    // velocità per inerzia
+    grabbed.dataset.vx = t.clientX - lastMouseX;
+    grabbed.dataset.vy = t.clientY - lastMouseY;
+
+    lastMouseX = t.clientX;
+    lastMouseY = t.clientY;
+
+    e.preventDefault(); // evita lo scroll
+}, { passive: false });
+
+
 document.addEventListener("mouseup", () => {
     grabbed = null;
 });
+
+spawnContainer.addEventListener("touchend", () => {
+    grabbed = null;
+});
+
 
 // ===============================
 // RIMOZIONE SHAPE CON TASTO DESTRO
