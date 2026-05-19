@@ -203,6 +203,32 @@ spawnContainer.addEventListener("click", (e) => {
     lastTapTime = now;
 });
 
+const deleteAllBtn = document.getElementById("deleteAllShapes");
+
+deleteAllBtn.addEventListener("click", () => {
+    shapes.forEach(shape => {
+        // posizione assoluta della shape
+        const rect = shape.getBoundingClientRect();
+        const containerRect = spawnContainer.getBoundingClientRect();
+
+        // centro della shape nel container
+        const x = rect.left - containerRect.left + rect.width / 2;
+        const y = rect.top - containerRect.top + rect.height / 2;
+
+        // colore della shape
+        const color = window.getComputedStyle(shape).backgroundColor;
+
+        // esplosione immediata
+        explode(x, y, color);
+
+        // rimuovi shape
+        shape.remove();
+    });
+
+    // aggiorna lista
+    shapes = document.querySelectorAll(".shape");
+});
+
 
 // ===============================
 // MOTORE FISICO AUTONOMO

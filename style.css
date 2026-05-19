@@ -99,3 +99,7 @@ hr{
     border-radius: 50%;
     pointer-events: none;
 }
+
+::selection{
+    background: transparent;
+}
