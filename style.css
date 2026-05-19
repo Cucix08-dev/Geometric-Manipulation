@@ -1,0 +1,81 @@
+body{
+    padding: 0;
+    margin: 0;
+    height: 100dvh;
+    width: 99vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+header{
+    display: flex;
+    justify-content: center;
+}
+
+nav{
+    width: 95vw;
+}
+
+ul {
+    list-style: none;
+    display: flex;
+    justify-content: right;
+}
+
+li.button-list{
+    border: solid 2px black;
+    padding: 1.1% 2%;
+    border-radius: 4px;
+    font-size: clamp(1rem, 2vw, 1.5rem);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 4px;
+    color: black;
+
+    cursor: pointer;
+}
+
+hr{
+    padding: 0 50vw;
+    margin: 0;
+}
+
+.shape{
+    width: 4vw;
+    aspect-ratio: 1/1;
+}
+
+.circle{
+    border-radius: 999px;
+    background-color: rgb(128, 232, 209);
+}
+
+.triangle{
+    border-radius: 999px 999px 0 0;
+}
+
+.square{
+    background-color: rgb(167, 227, 247);
+}
+
+#sole.light, #luna.dark{
+    display: block;
+}
+
+.dark{
+    color: white;
+}
+
+.light{
+    color: black;
+}
+
+#sole.dark, #luna.light{
+    display: none;
+}
+
+.hidden{
+    display: none !important;
+}
